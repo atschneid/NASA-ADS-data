@@ -37,8 +37,10 @@ def knn_classify_test(data_file,vec_path,knn_neighbors=5):
         with open(vec_path) as f:
             pass            
         vec_files = [vec_path]
+        print( 'processing single file' )
     except IsADirectoryError:
-        vec_files = [os.path.join(vec_path,f) for f in os.listdir(vec_path) if f.split('.')[-1] == '.pk']
+        vec_files = [os.path.join(vec_path,f) for f in os.listdir(vec_path) if f.split('.')[-1] == 'pk']
+        print( 'processing folder, {} files'.format(len(vec_files)) )
 
     years = {}
     keywords = set()

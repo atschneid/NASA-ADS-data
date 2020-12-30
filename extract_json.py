@@ -131,8 +131,17 @@ class Extract:
                 f.write('\n'.join(['{}\t{}\t{}\t{}'.format(*line) for line in self.output_lines]))
 
 if __name__ == "__main__":
-    ext = Extract('ref_data')
-    ext.get_keyword_refs()
-    # ext.get_firstauthors_text()
-    ext.write_file('refs_data.pk',serialize=True)
-    ext.write_file('refs_data.tsv',serialize=False)
+    if len(sys.argv) == 3:
+        in_file = sys.argv[1]
+        outfile = sys.argv[2]
+
+        ext = Extract(in_file)
+        ext.get_keyword_refs()
+
+        ext.write_file(outfile,serialize=False)
+    else:
+        ext = Extract('ref_data')
+        ext.get_keyword_refs()
+        # ext.get_firstauthors_text()
+        ext.write_file('refs_data.pk',serialize=True)
+        ext.write_file('refs_data.tsv',serialize=False)

@@ -1,4 +1,5 @@
 import gensim, gensim.models
+import sys
 import pickle
 import numpy as np
 
@@ -59,9 +60,21 @@ class RefModel:
 
 if __name__ == "__main__":
     print( 'gensim {}'.format(gensim.__version__) )
-    rm = RefModel('refs_data.tsv')
-    rm.train_model()
-    rc = RefCorpus('refs_data.tsv', include_ids=True)
-    rm.save_vecs(rc, save_file='ref_vecs_word_25d', sum_vecs=False)
-    rm.save_vecs(rc, save_file='ref_vecs_ctxt_25d', sum_vecs=True)
+
+    if len(sys.argv) == 3:
+        in_file = sys.argv[1]
+        outfile = sys.argv[2]
+
+        rm = RefModel(in_file)
+        rm.train_model()
+        rc = RefCorpus(in_file, include_ids=True)
+        
+        rm.save_vecs(rc, save_file=outfile, sum_vecs=True)
+
+    else:
+        rm = RefModel('refs_data.tsv')
+        rm.train_model()
+        rc = RefCorpus('refs_data.tsv', include_ids=True)
+        rm.save_vecs(rc, save_file='ref_vecs_word_25d', sum_vecs=False)
+        rm.save_vecs(rc, save_file='ref_vecs_ctxt_25d', sum_vecs=True)
 
